@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface GenreJpaRepository extends CrudRepository<Genre, Long>,
         FindOneRepository<Genre>,
-        ListAllRepository<Genre, GenreProjection>,
+        ListAllRepository<GenreProjection>,
         CreateRepository<Genre> {
 
     List<GenreProjection> findAllProjectedByOrderByNameAsc();

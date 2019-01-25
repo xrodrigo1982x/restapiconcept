@@ -32,13 +32,14 @@ public class DTOMappingControllerValidator {
 
     private List<Method> validateDTOMapping(Object o) {
         return Stream.of(o.getClass().getDeclaredMethods())
-                .filter(this::methodIsNotValid)
+                .filter(method -> !this.methodIsValid(method))
                 .collect(toList());
     }
 
-    private boolean methodIsNotValid(Method method){
-        return !(!"void".equals(method.getReturnType().getName())
-                && (method.isAnnotationPresent(UsingDTOMapper.class) || method.isAnnotationPresent(MapToDTO.class)));
+    private boolean methodIsValid(Method method) {
+        boolean isVoidReturn = "void".equals(method.getReturnType().getName());
+        boolean isMappedToDTO = method.isAnnotationPresent(UsingDTOMapper.class) || method.isAnnotationPresent(MapToDTO.class);
+        return isVoidReturn || isMappedToDTO;
     }
 
 }

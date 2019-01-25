@@ -45,30 +45,10 @@ public class MockDataConfig {
         log.info("directors created");
         List<User> users = (List<User>) userJpaRepository.saveAll(getUsers());
         List<Movie> movies = (List<Movie>) movieJpaRepository.saveAll(getMovies(directors, genres));
-        List<Review> reviews = getReviews(movies, users);
-
-        try {
-            reviews.forEach(reviewJpaRepository::save);
-        } catch (Exception e) {
-        }
-    }
-
-    private List<Review> getReviews(List<Movie> movies, List<User> users) {
-        return range(0, REVIEW_COUNT).mapToObj(i -> {
-            Movie movie = FAKER.options().nextElement(movies);
-
-            return Review.builder()
-                    .movie(movie)
-                    .user(FAKER.options().nextElement(users))
-                    .comment(FAKER.lorem().sentence())
-                    .rating(FAKER.number().numberBetween(0, 10))
-                    .date(getDate(movie))
-                    .build();
-        }).collect(toList());
     }
 
     private LocalDateTime getDate(Movie movie) {
-        Date releaseAsDate = Date.from(movie.getRelease().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Date releaseAsDate = Date.from(movie.getReleaseDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         Date date = FAKER.date().between(releaseAsDate, new Date());
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
@@ -79,7 +59,7 @@ public class MockDataConfig {
                 .director(FAKER.options().nextElement(directors))
                 .genre(FAKER.options().nextElement(genres))
                 .name(FAKER.book().title())
-                .release(LocalDate.now().minus(FAKER.number().numberBetween(0, 40 * 365), ChronoUnit.DAYS))
+                .releaseDate(LocalDate.now().minus(FAKER.number().numberBetween(0, 40 * 365), ChronoUnit.DAYS))
                 .build()).collect(toList());
     }
 

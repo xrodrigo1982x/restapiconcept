@@ -18,11 +18,11 @@ import java.util.List;
 @AllArgsConstructor
 public class GenreService implements
         FindOneService<Genre>,
-        ListAllService<Genre, GenreProjection>,
+        ListAllService<GenreProjection>,
         CreateService<Genre> {
 
     private FindOneRepository<Genre> findOneRepository;
-    private ListAllRepository<Genre, GenreProjection> listAllService;
+    private ListAllRepository<GenreProjection> listAllRepository;
     private CreateRepository<Genre> createRepository;
 
     @Override
@@ -32,7 +32,7 @@ public class GenreService implements
 
     @Override
     public List<GenreProjection> all() {
-        return listAllService.all();
+        return listAllRepository.all();
     }
 
     @Override

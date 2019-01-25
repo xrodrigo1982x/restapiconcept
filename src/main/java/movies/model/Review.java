@@ -9,19 +9,21 @@ import movies.infra.repository.pk.ReviewPK;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@IdClass(ReviewPK.class)
+@Table(uniqueConstraints = {@UniqueConstraint(name = "unique_user_movie", columnNames = {"movie_id", "user_id"})})
 public class Review {
 
     @Id
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "review_movie"))
-    private Movie movie;
-    @Id
+    @GeneratedValue(strategy = SEQUENCE, generator = "generic_seq")
+    @SequenceGenerator(name = "generic_seq", allocationSize = 1)
+    private Long id;
+
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "review_user"))
     private User user;

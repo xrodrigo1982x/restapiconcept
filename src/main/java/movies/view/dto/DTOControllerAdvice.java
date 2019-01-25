@@ -39,6 +39,7 @@ public class DTOControllerAdvice extends AbstractMappingJacksonResponseBodyAdvic
         }
 
         Object returnValue = handleByType(value.getValue(), mapper);
+        value.setValue(returnValue);
     }
 
 

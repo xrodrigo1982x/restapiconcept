@@ -26,7 +26,7 @@ import static movies.view.exception.NotFoundException.verifyFound;
 @Slf4j
 public class GenreController {
 
-    private ListAllService<Genre, GenreProjection> listAllService;
+    private ListAllService<GenreProjection> listAllService;
     private CreateService<Genre> createService;
     private UpdateService updateService;
     private EntityMapper<Genre, GenreEditDTO> entityMapper;

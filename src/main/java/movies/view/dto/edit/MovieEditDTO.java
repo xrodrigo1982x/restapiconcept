@@ -6,7 +6,7 @@ public class MovieEditDTO {
 
     public Long id;
     public String name;
-    public LocalDate release;
+    public LocalDate releaseDate;
     public Long directorId;
     public Long genreId;
 
