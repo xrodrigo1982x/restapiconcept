@@ -10,6 +10,7 @@ import movies.model.service.ListAllService;
 import movies.model.service.impl.UpdateService;
 import movies.view.dto.DTOMapper;
 import movies.view.dto.EntityMapper;
+import movies.view.dto.GenericEntityMapper;
 import movies.view.dto.MapToDTO;
 import movies.view.dto.edit.MovieEditDTO;
 import movies.view.dto.edit.ReviewInputDTO;
@@ -34,7 +35,7 @@ public class MovieController {
     private CreateService<Movie> createService;
     private ListAllService<MovieProjection> listAllService;
     private UpdateService updateService;
-    private EntityMapper<Movie, MovieEditDTO> entityMapper;
+    private GenericEntityMapper entityMapper;
     private AddReviewToMovie addReviewToMovie;
     private DTOMapper<ReviewInputDTO, ReviewInput> reviewInputMapper;
 
@@ -55,7 +56,7 @@ public class MovieController {
     @MapToDTO(MovieEditDTO.class)
     public Movie create(@RequestBody @Valid MovieEditDTO dto, BindingResult result) {
         verifyValidationErrors(result);
-        Movie movie = entityMapper.map(new Movie(), dto);
+        Movie movie = entityMapper.getMapper(new Movie(), dto).get();
         movie = createService.create(movie);
         return movie;
     }
@@ -65,7 +66,7 @@ public class MovieController {
     public Movie update(@PathVariable Movie movie, @RequestBody @Valid MovieEditDTO editDTO, BindingResult result) {
         verifyFound(movie);
         verifyValidationErrors(result);
-        movie = updateService.update(movie, editDTO, entityMapper);
+        movie = updateService.update(entityMapper.getMapper(movie, editDTO));
         return movie;
     }
 

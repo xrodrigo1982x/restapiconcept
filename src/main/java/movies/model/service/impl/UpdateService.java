@@ -1,16 +1,16 @@
 package movies.model.service.impl;
 
-import movies.view.dto.EntityMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.function.Supplier;
 
 @Service
 public class UpdateService {
 
     @Transactional
-    public <T, D> T update(T source, D with, EntityMapper<T, D> mapper) {
-        return mapper.map(source, with);
+    public <T> T update(Supplier<T> updateSupplier) {
+        return updateSupplier.get();
     }
 
 }
